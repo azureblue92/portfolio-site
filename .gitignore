@@ -1,0 +1,9 @@
+# Local Claude Code settings (may hold machine-specific permissions)
+.claude/settings.local.json
+
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/

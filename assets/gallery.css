@@ -1,0 +1,170 @@
+/* Portfolio galleries: slow auto-scrolling strip + click-to-view lightbox. */
+
+.gallery-marquee {
+  display: block !important;
+  overflow: hidden;
+  container-type: inline-size;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+}
+
+.gallery-track {
+  display: flex;
+  width: max-content;
+  animation: gallery-marquee var(--marquee-duration, 36s) linear infinite;
+}
+
+.gallery-marquee:hover .gallery-track,
+.gallery-marquee:focus-within .gallery-track,
+.gallery-marquee.is-paused .gallery-track {
+  animation-play-state: paused;
+}
+
+@keyframes gallery-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.gallery-marquee .gallery-item {
+  flex: 0 0 auto;
+  width: 33.333cqi !important;
+  max-width: none;
+}
+
+@media (max-width: 991.98px) {
+  .gallery-marquee .gallery-item { width: 50cqi !important; }
+}
+
+@media (max-width: 575.98px) {
+  .gallery-marquee .gallery-item { width: 85cqi !important; }
+}
+
+.gallery-marquee .gallery-item a { cursor: zoom-in; }
+
+.gallery-marquee .gallery-item a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+  border-radius: 4px;
+}
+
+/* No motion: a plain swipeable row instead of the animated loop. */
+@media (prefers-reduced-motion: reduce) {
+  .gallery-marquee {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .gallery-track { animation: none; }
+  .gallery-marquee .gallery-item { scroll-snap-align: start; }
+}
+
+/* Lightbox */
+
+.gallery-lightbox {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 16px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  overflow: hidden;
+}
+
+.gallery-lightbox[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: lightbox-in 0.2s ease-out;
+}
+
+.gallery-lightbox::backdrop {
+  background: rgba(1, 6, 24, 0.92);
+}
+
+@keyframes lightbox-in {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+.lightbox-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: min(1100px, 100%);
+  max-height: 100%;
+  margin: 0;
+}
+
+.lightbox-image {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 220px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  background: #1a2233;
+}
+
+.lightbox-caption {
+  max-width: 720px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.lightbox-title {
+  display: block;
+  margin-bottom: 4px;
+  font-size: calc(0.8rem + 3pt);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9aa6ba;
+}
+
+.lightbox-description {
+  margin: 0;
+  font-size: calc(1rem + 3pt);
+}
+
+.lightbox-counter {
+  display: block;
+  margin-top: 8px;
+  font-size: calc(0.85rem + 3pt);
+  color: #9aa6ba;
+}
+
+.lightbox-btn {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  background: rgba(1, 6, 24, 0.6);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.lightbox-btn:hover { background: rgba(255, 255, 255, 0.15); }
+.lightbox-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.lightbox-btn svg { width: 20px; height: 20px; }
+
+.lightbox-close { top: 16px; right: 16px; }
+.lightbox-prev { left: 16px; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 16px; top: 50%; transform: translateY(-50%); }
+
+@media (max-width: 575.98px) {
+  .lightbox-prev, .lightbox-next { top: auto; bottom: 16px; transform: none; }
+  .lightbox-image { max-height: calc(100vh - 260px); }
+}
