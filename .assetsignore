@@ -1,0 +1,5 @@
+# Files in the repo that Cloudflare should not serve on the live site
+.claude/
+.gitignore
+.assetsignore
+images.csv
