@@ -1,0 +1,55 @@
+/*
+ * Mobile / tablet fixes layered on top of the Soloist export.
+ * Loaded after site.css so these rules win ties with Bootstrap.
+ */
+
+/* Bootstrap's `.container` padding (driven by --bs-gutter-x, which `.g-0`
+   sets to 0) overrides the export's intended 24px side padding, so rows with
+   negative gutter margins hang off the screen edges whenever the container
+   fills the viewport. Restore it. The nav already pads its inner wrapper. */
+.container.g-0:not(nav) {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+@media (max-width: 991.98px) {
+  /* Hero rows use padding-less columns, so their negative gutter margins
+     only pull the text toward the edge. Line it up with the nav brand. */
+  .container.g-0 > .row.col-12 {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 575.98px) {
+  /* Keep testimonial text clear of the prev/next arrows. */
+  .carousel .carousel-review {
+    padding-inline: 44px;
+  }
+
+  /* Long quotes wrap to more lines on phones; don't cap the slide height. */
+  .container .row.content {
+    max-height: none;
+  }
+
+  /* Footer: keep the name on one line beside the social icons. */
+  footer .logo-or-title h3 {
+    white-space: nowrap;
+  }
+}
+
+/* Mobile menu panel (opened by assets/nav.js). */
+.mobile-menu.is-open {
+  display: flex !important;
+}
+
+@media (max-width: 575.98px) {
+  /* The export gives the panel a fixed 420px width; fit it to the phone. */
+  .mobile-menu {
+    position: fixed !important;
+    top: 72px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+  }
+}
